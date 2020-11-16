@@ -1,9 +1,43 @@
+import { isDate, isObject } from './utils'
 // 拼接url
 export default function buildUrl(url: string, params: any): string {
   // 如果没有传params，则直接返回
   if (!params) {
     return url
   }
+
+  let parts: string[] = []
+  Object.keys(params).forEach(key => {
+    // 获取当前key的值
+    const val = params[key]
+    // 为了方便统一处理values，将values统一为数组
+    let values = []
+    // 如果值为null或者undefined，退出此次循环
+    if (val === null || typeof val === 'undefined') {
+      return
+    }
+    // 判断是否为数组
+    if (Array.isArray(val)) {
+      // 如果是数组，则将值赋给values
+      // 同时key需要在后面拼上[]
+      values = val
+      key += '[]'
+    } else {
+      // 否则直接把值变为数组
+      values = [val]
+    }
+
+    values.forEach(item => {
+      if (isDate(item)) {
+        item = item.toISOString()
+      }
+      if (isObject(item)) {
+        item = JSON.stringify(item)
+      }
+      parts.push(`${key}=${item}`)
+    })
+  })
+  return parts.join('&')
 
   // 参数值为数组
   // /base/get?foo[]=bar&foo[]=baz
