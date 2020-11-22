@@ -38,6 +38,10 @@ function registerSimpleRouter() {
       msg: `hello world`
     })
   })
+
+  router.post('/base/post', function(req, res) {
+    res.json(req.body)
+  })
 }
 
 const port = process.env.PORT || 8080
