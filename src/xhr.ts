@@ -5,7 +5,7 @@ export default function xhr(config: AxiosRequestConfig) {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest()
     xhr.onreadystatechange = function() {}
-
+    console.log(url)
     xhr.open(method.toUpperCase(), url, true)
     xhr.send()
   })
