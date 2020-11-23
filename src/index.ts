@@ -2,7 +2,7 @@ import { AxiosRequestConfig } from './types'
 import buildUrl from './helper/url'
 import buildData from './helper/data'
 import buildHeader from './helper/header'
-
+import { PromiseResponse } from './types'
 import xhr from './xhr'
 
 // 转化url
@@ -26,12 +26,20 @@ function processConfig(config: AxiosRequestConfig): void {
 }
 
 // 实例方法
-function axios(config: AxiosRequestConfig) {
+function axios(config: AxiosRequestConfig): PromiseResponse {
   processConfig(config)
   // 注意顺序，这个方法要在transformData之前，因为transformData会把data转为string
   transformHeader(config)
   transformData(config)
-  xhr(config)
+  return xhr(config).then(res => {
+    // 如果返回data是字符串，则尝试将其转为json类型
+    if (typeof res.data === 'string') {
+      try {
+        res.data = JSON.parse(res.data)
+      } catch {}
+    }
+    return res
+  })
 }
 
 export default axios
