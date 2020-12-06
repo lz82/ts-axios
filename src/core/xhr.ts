@@ -1,6 +1,6 @@
-import { AxiosRequestConfig } from './types'
+import { AxiosRequestConfig } from '../types'
 
-import { AxiosResponse, PromiseResponse, AxiosError } from './types'
+import { AxiosResponse, AxiosPromise, AxiosError } from '../types'
 
 // 将response headers从字符串转为对象
 const formatHeader = (origin: string): any => {
@@ -19,7 +19,7 @@ const formatHeader = (origin: string): any => {
   return ret
 }
 
-export default function xhr(config: AxiosRequestConfig): PromiseResponse {
+export default function xhr(config: AxiosRequestConfig): AxiosPromise {
   console.log('config', config)
   const { url, method = 'get', data = null, header = {}, responseType = 'text', timeout } = config
   return new Promise<AxiosResponse>((resolve, reject) => {

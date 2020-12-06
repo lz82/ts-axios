@@ -1,8 +1,6 @@
 import axios, { AxiosError } from '../../src/index'
 
-axios({
-  method: 'get',
-  url: '/simple/get1',
+axios.get('/simple/get', {
   params: {
     a: 1,
     b: 2,
@@ -14,15 +12,9 @@ axios({
   .catch((err: AxiosError) => console.log(err.message))
 
 
-axios({
-  method: 'post',
-  url: '/base/post',
-  responseType: 'json',
-  data: {
-    a: 1,
-    b: 2
-  }
+axios.post('/base/post', {
+  a: 1,
+  b: 2
+}, {
+  responseType: 'json'
 }).then(res => console.log(res))
-
-
-
