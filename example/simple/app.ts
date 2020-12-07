@@ -1,5 +1,15 @@
 import axios, { AxiosError } from '../../src/index'
 
+axios('/simple/get', {
+  params: {
+    a: 1,
+    b: 2,
+    c: ['a', 'b'],
+    d: new Date(),
+    e: { name: 'lz' }
+  }
+})
+
 axios.get('/simple/get', {
   params: {
     a: 1,

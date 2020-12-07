@@ -20,7 +20,6 @@ const formatHeader = (origin: string): any => {
 }
 
 export default function xhr(config: AxiosRequestConfig): AxiosPromise {
-  console.log('config', config)
   const { url, method = 'get', data = null, header = {}, responseType = 'text', timeout } = config
   return new Promise<AxiosResponse>((resolve, reject) => {
     const xhr = new XMLHttpRequest()
