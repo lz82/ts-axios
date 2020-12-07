@@ -1,6 +1,15 @@
 import axios, { AxiosError } from '../../src/index'
 
-axios('/simple/get', {
+interface IGet {
+  msg: string
+}
+
+interface IPost {
+  a: number
+  b: number
+}
+
+axios<IGet>('/simple/get', {
   params: {
     a: 1,
     b: 2,
@@ -8,7 +17,7 @@ axios('/simple/get', {
     d: new Date(),
     e: { name: 'lz' }
   }
-})
+}).then(res => { console.log(res.data.msg) })
 
 axios.get('/simple/get', {
   params: {
@@ -22,9 +31,9 @@ axios.get('/simple/get', {
   .catch((err: AxiosError) => console.log(err.message))
 
 
-axios.post('/base/post', {
+axios.post<IPost>('/base/post', {
   a: 1,
   b: 2
 }, {
   responseType: 'json'
-}).then(res => console.log(res))
+}).then(res => console.log(res.data.a, res.data.b))
