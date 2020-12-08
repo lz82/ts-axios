@@ -16,5 +16,5 @@ function createAxiosInstance(): AxiosInstance {
 }
 
 const instance = createAxiosInstance()
-
+console.log(instance.get)
 export default instance

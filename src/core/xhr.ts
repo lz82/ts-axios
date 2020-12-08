@@ -52,7 +52,7 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
       reject(err)
     }
 
-    xhr.open(method.toUpperCase(), url, true)
+    xhr.open(method.toUpperCase(), url!, true)
     // 回调函数
     xhr.onreadystatechange = () => {
       if (xhr.readyState !== 4) {
@@ -91,6 +91,7 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
       }
     }
     // 设置header
+    console.log('header', header)
     Object.keys(header).forEach(key => {
       xhr.setRequestHeader(key, header[key])
     })
