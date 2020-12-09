@@ -58,7 +58,6 @@ export default class Axios {
   }
 
   request(url: any, config?: any): AxiosPromise {
-    debugger
     if (typeof url === 'string') {
       if (!config) {
         config = {}
