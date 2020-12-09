@@ -18,7 +18,7 @@ export default function buildHeader(config: AxiosRequestConfig): void {
 
   // 如果data没有传值，则不需要为header添加content-type: application/json
   if (!data) {
-    return
+    return header
   }
   // 如果data为对象
   if (isObject(data)) {

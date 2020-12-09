@@ -58,6 +58,7 @@ export default class Axios {
   }
 
   request(url: any, config?: any): AxiosPromise {
+    debugger
     if (typeof url === 'string') {
       if (!config) {
         config = {}
@@ -66,7 +67,6 @@ export default class Axios {
     } else {
       config = url
     }
-    console.log('request config', config)
 
     let chain: Array<PromiseChain<any>> = [
       {
@@ -87,7 +87,6 @@ export default class Axios {
 
     while (chain.length) {
       const { resolve, reject } = chain.shift()!
-
       promise = promise.then(resolve, reject)
     }
 

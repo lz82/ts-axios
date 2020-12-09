@@ -91,7 +91,6 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
       }
     }
     // 设置header
-    console.log('header', header)
     Object.keys(header).forEach(key => {
       xhr.setRequestHeader(key, header[key])
     })

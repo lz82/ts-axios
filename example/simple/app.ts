@@ -9,22 +9,49 @@ interface IPost {
   b: number
 }
 axios.interceptors.request.use(config => {
-  console.log(config)
-  config.header['test'] = 1111111111111
+  config.header['test'] += 'b'
   return config
 })
+
+axios.interceptors.request.use(config => {
+  config.header['test'] += 'c'
+  return config
+})
+
+axios.interceptors.request.use(config => {
+  config.header['test'] += 'a'
+  return config
+})
+
+axios.interceptors.response.use(res => {
+  res.data.msg += ' a'
+  return res
+})
+
+axios.interceptors.response.use(res => {
+  res.data.msg += ' b'
+  return res
+})
+
+axios.interceptors.response.use(res => {
+  res.data.msg += ' c'
+  return res
+})
+
 axios<IGet>('/simple/get', {
+  header: {
+    test: ''
+  },
   params: {
     a: 1,
     b: 2,
     c: ['a', 'b'],
     d: new Date(),
     e: { name: 'lz' }
-  },
-  header: {
-    test: 1
   }
-}).then(res => { console.log(res.data.msg) })
+}).then(res => {
+  console.log(res.data.msg)
+})
 
 // axios.get('/simple/get', {
 //   params: {
