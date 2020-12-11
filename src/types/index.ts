@@ -22,6 +22,7 @@ export interface AxiosRequestConfig {
   header?: any
   responseType?: string
   timeout?: number
+  [key: string]: any
 }
 
 export interface AxiosResponse<T = any> {

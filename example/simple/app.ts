@@ -8,18 +8,9 @@ interface IPost {
   a: number
   b: number
 }
-axios.interceptors.request.use(config => {
-  config.header['test'] += 'b'
-  return config
-})
 
 axios.interceptors.request.use(config => {
-  config.header['test'] += 'c'
-  return config
-})
-
-axios.interceptors.request.use(config => {
-  config.header['test'] += 'a'
+  config.header['authorization'] = 'thisisatoken'
   return config
 })
 
@@ -39,9 +30,9 @@ axios.interceptors.response.use(res => {
 })
 
 axios<IGet>('/simple/get', {
-  header: {
-    test: ''
-  },
+  // header: {
+  //   test: ''
+  // },
   params: {
     a: 1,
     b: 2,

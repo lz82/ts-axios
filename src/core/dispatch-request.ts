@@ -1,7 +1,7 @@
 import { AxiosRequestConfig } from '../types'
 import buildUrl from '../helper/url'
 import buildData from '../helper/data'
-import buildHeader from '../helper/header'
+import buildHeader, { flattenHeaders } from '../helper/header'
 import { AxiosPromise } from '../types'
 import xhr from './xhr'
 
@@ -31,6 +31,10 @@ function dispatchRequest(config: AxiosRequestConfig): AxiosPromise {
   // 注意顺序，这个方法要在transformData之前，因为transformData会把data转为string
   transformHeader(config)
   transformData(config)
+  console.log(config)
+  debugger
+  config.header = flattenHeaders(config.header, config.method!)
+  console.log(config)
   return xhr(config).then(res => {
     // 如果返回data是字符串，则尝试将其转为json类型
     if (typeof res.data === 'string') {

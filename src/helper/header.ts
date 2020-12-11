@@ -1,6 +1,6 @@
 import { AxiosRequestConfig } from '../types'
 
-import { isObject } from './utils'
+import { isObject, deepMerge } from './utils'
 
 function normalizeHeader(header: any, name: string) {
   Object.keys(header).forEach(key => {
@@ -31,4 +31,16 @@ export default function buildHeader(config: AxiosRequestConfig): void {
     }
   }
   return header
+}
+
+export function flattenHeaders(header: any, method: string): any {
+  const ret = deepMerge(header.common, header[method], header)
+
+  const deleteKey = ['common', 'delete', 'get', 'head', 'options', 'post', 'put', 'patch']
+
+  deleteKey.forEach(key => {
+    delete ret[key]
+  })
+
+  return ret
 }
