@@ -37,7 +37,7 @@ export default class Axios {
     url: string,
     config?: AxiosRequestConfig
   ): AxiosPromise {
-    return dispatchRequest(
+    return this.request(
       Object.assign(config || {}, {
         method,
         url
@@ -51,7 +51,7 @@ export default class Axios {
     data?: any,
     config?: AxiosRequestConfig
   ): AxiosPromise {
-    return dispatchRequest(
+    return this.request(
       Object.assign(config || {}, {
         method,
         url,
@@ -69,10 +69,14 @@ export default class Axios {
     } else {
       config = url
     }
-    console.log('default config', this.defaults)
     // 将传入config和default-config进行merge
     config = mergeConfig(this.defaults, config)
-    console.log('merge config', config)
+    console.log(
+      'merged config',
+      config.transformRequest[0],
+      config.transformRequest[1],
+      config.transformResponse[1]
+    )
     let chain: Array<PromiseChain<any>> = [
       {
         resolve: dispatchRequest,

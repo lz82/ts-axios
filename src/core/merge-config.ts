@@ -24,7 +24,7 @@ const deepMergeStrate = (val1: any, val2: any): any => {
 }
 
 const secondPriorityKeys = ['url', 'params', 'data']
-const deepMergeKeys = ['header']
+const deepMergeKeys = ['header', 'transformRequest', 'transformResponse']
 
 const strateSelector = (key: any) => {
   if (secondPriorityKeys.includes(key)) {

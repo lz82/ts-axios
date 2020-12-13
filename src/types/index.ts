@@ -22,6 +22,8 @@ export interface AxiosRequestConfig {
   header?: any
   responseType?: string
   timeout?: number
+  transformRequest?: Transformer | Transformer[]
+  transformResponse?: Transformer | Transformer[]
   [key: string]: any
 }
 
@@ -68,7 +70,7 @@ export interface AxiosInstance extends Axios {
 }
 
 export interface InterceptorManager<T> {
-  use(resolve: ResolveFn<T>, reject?: RejectFn): number
+  use(resolve: ResolveFn<T>, reject?: RejectFn): numberc
 
   eject(id: number): void
 }
@@ -79,4 +81,12 @@ export interface ResolveFn<T> {
 
 export interface RejectFn {
   (err: any): any | Promise<any>
+}
+
+export interface Transformer {
+  (data: any, header?: any): any
+}
+
+export interface AxiosStatic extends AxiosInstance {
+  create(config?: AxiosRequestConfig): AxiosInstance
 }

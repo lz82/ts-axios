@@ -13,9 +13,7 @@ function normalizeHeader(header: any, name: string) {
 }
 
 // 当data为对象时，为header添加content-type:application/json;
-export default function buildHeader(config: AxiosRequestConfig): void {
-  const { header = {}, data } = config
-
+export default function buildHeader(header: any = {}, data?: any): void {
   // 如果data没有传值，则不需要为header添加content-type: application/json
   if (!data) {
     return header

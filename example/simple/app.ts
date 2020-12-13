@@ -1,5 +1,5 @@
 import axios, { AxiosError } from '../../src/index'
-
+import qs from 'qs'
 interface IGet {
   msg: string
 }
@@ -9,30 +9,51 @@ interface IPost {
   b: number
 }
 
-axios.interceptors.request.use(config => {
+
+
+// axios.interceptors.response.use(res => {
+//   res.data.msg += ' a'
+//   return res
+// })
+
+// axios.interceptors.response.use(res => {
+//   res.data.msg += ' b'
+//   return res
+// })
+
+// axios.interceptors.response.use(res => {
+//   res.data.msg += ' c'
+//   return res
+// })
+const instance = axios.create()
+instance.interceptors.request.use(config => {
   config.header['authorization'] = 'thisisatoken'
   return config
 })
-
-axios.interceptors.response.use(res => {
-  res.data.msg += ' a'
-  return res
-})
-
-axios.interceptors.response.use(res => {
-  res.data.msg += ' b'
-  return res
-})
-
-axios.interceptors.response.use(res => {
-  res.data.msg += ' c'
-  return res
-})
-
-axios<IGet>('/simple/get', {
+axios<IPost>('/base/post', {
   // header: {
   //   test: ''
   // },
+  method: 'post',
+  data: {
+    a: 1,
+    b: 2,
+    c: ['a', 'b'],
+    d: new Date(),
+    e: { name: 'lz' }
+  },
+  transformRequest: [(data) => {
+    return qs.stringify(data)
+  }, ...axios.defaults.transformRequest as any],
+  transformResponse: [...axios.defaults.transformResponse as any, (data) => {
+    data.transform = 'transform yet'
+    return data
+  }]
+}).then(res => {
+  console.log(res)
+})
+
+instance.get('/simple/get', {
   params: {
     a: 1,
     b: 2,
@@ -40,24 +61,12 @@ axios<IGet>('/simple/get', {
     d: new Date(),
     e: { name: 'lz' }
   }
-}).then(res => {
-  console.log(res.data.msg)
-})
+}).then(res => console.log(res))
+  .catch((err: AxiosError) => console.log(err.message))
 
-// axios.get('/simple/get', {
-//   params: {
-//     a: 1,
-//     b: 2,
-//     c: ['a', 'b'],
-//     d: new Date(),
-//     e: { name: 'lz' }
-//   }
-// }).then(res => console.log(res))
-//   .catch((err: AxiosError) => console.log(err.message))
-
-// axios.post<IPost>('/base/post', {
+// instance.post<IPost>('/base/post', {
 //   a: 1,
 //   b: 2
 // }, {
 //   responseType: 'json'
-// }).then(res => console.log(res.data.a, res.data.b))
+// }).then(res => console.log(res))
