@@ -20,7 +20,15 @@ const formatHeader = (origin: string): any => {
 }
 
 export default function xhr(config: AxiosRequestConfig): AxiosPromise {
-  const { url, method = 'get', data = null, header = {}, responseType = 'text', timeout } = config
+  const {
+    url,
+    method = 'get',
+    data = null,
+    header = {},
+    responseType = 'text',
+    timeout,
+    cancelToken
+  } = config
   return new Promise<AxiosResponse>((resolve, reject) => {
     const xhr = new XMLHttpRequest()
     if (timeout) {
@@ -95,6 +103,14 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
       console.log(key, header[key])
       xhr.setRequestHeader(key, header[key])
     })
+
+    if (cancelToken) {
+      cancelToken.promise.then(reason => {
+        xhr.abort()
+        reject(reason)
+      })
+    }
+
     xhr.send(data)
   })
 }

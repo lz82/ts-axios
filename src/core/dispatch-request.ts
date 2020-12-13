@@ -18,8 +18,15 @@ function processConfig(config: AxiosRequestConfig): void {
   config.header = flattenHeaders(config.header, config.method!)
 }
 
+function throwIfCancellationRequested(config: AxiosRequestConfig): void {
+  if (config.cancelToken) {
+    config.cancelToken.throwIfRequested()
+  }
+}
+
 // 实例方法
 function dispatchRequest(config: AxiosRequestConfig): AxiosPromise {
+  throwIfCancellationRequested(config)
   processConfig(config)
 
   return xhr(config).then(res => {
